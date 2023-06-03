@@ -29,13 +29,7 @@ identificador    = [a-zA-Z][a-zA-Z0-9]*
 numFloat         = "-?[0-9]+(?:\\.[0-9]+)?"
 numDouble        = "-?[0-9]+(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?"
 numEntero        = "-?[0-9]+"
-operadorLogico   = "&" | "&&" | "||" | "!"
-espacios_blanco  = [\r|\n|\r\n| |\t]
-comillas         = [""]
-operadorRelacional = ">" | ">=" | "<" | "<=" | "==" | "!="
-operadorAritmetico = "+" | "-" | "*" | "/" | "^"
-identificador = [a-zA-Z][a-zA-Z0-9]*
-operadorLogico = "&" | "&&" | "||" | "!"
+comillas         = [\"\"]
 
 
 %%
@@ -146,6 +140,7 @@ operadorLogico = "&" | "&&" | "||" | "!"
 "println"         { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PRINTLN, yytext()); }
 "print"           { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PRINT, yytext()); }
 ";"               { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PUNTO_Y_COMA, yytext()); }
+"in"              { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.IN, yytext()); }
 
 
 
