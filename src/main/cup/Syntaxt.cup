@@ -1,0 +1,104 @@
+package umg.compiladores;
+
+import java_cup.runtime.*;
+
+terminal PUNTO_Y_COMA, SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABRE, PARENTESIS_CIERRA, NUMERO, OPERADOR_LOGICO,
+PUNTO, MENOR_QUE, IGUAL, MAYOR_QUE, POTENCIA, DIFERENTE, MENOR_O_IGUAL, MAYOR_O_IGUAL,DO_,IF,
+FOR, INT, OUT, ELSE, LONG, FLOAT, PRINT, SHORT, WHILE, STRING, SYSTEM, DOUBLE, BOOLEAN,
+PRINTLN, NUM_ENTERO, NUM_FLOAT, NUM_DOUBLE, Declaracion,Asignacion, EstructuraSelectiva, EstructuraRepetitiva
+LecturaDatos, ImpresionMensajes, Metodo, RetornoDatos;
+
+non terminal expr_list, expr;
+
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION;
+
+start with expr_list;
+
+expr_list ::= expr_list expr PUNTO_Y_COMA
+| expr PUNTO_Y_COMA
+;
+
+expr ::= expr SUMA expr
+| expr RESTA expr
+| expr MULTIPLICACION expr
+| PARENTESIS_ABRE expr PARENTESIS_CIERRA
+| NUMERO
+| Declaracion
+| Asignacion
+| EstructuraSelectiva
+| EstructuraRepetitiva
+| LecturaDatos
+| ImpresionMensajes
+| Metodo
+| RetornoDatos
+;
+
+Declaracion ::= FLOAT PALABRA
+| DOUBLE PALABRA
+| INT PALABRA
+| LONG PALABRA
+| SHORT PALABRA
+| STRING PALABRA
+| BOOLEAN PALABRA
+| FLOAT PALABRA IGUAL Expresion
+| DOUBLE PALABRA IGUAL Expresion
+| INT PALABRA IGUAL Expresion
+| LONG PALABRA IGUAL Expresion
+| SHORT PALABRA IGUAL Expresion
+| STRING PALABRA IGUAL Expresion
+| BOOLEAN PALABRA IGUAL Expresion
+;
+
+Asignacion ::= PALABRA IGUAL Expresion PUNTO_Y_COMA
+;
+
+Expresion ::= Expresion SUMA Expresion
+| Expresion RESTA Expresion
+| Expresion MULTIPLICACION Expresion
+| Expresion DIVISION Expresion
+| Expresion POTENCIA Expresion
+| PARENTESIS_ABRE Expresion PARENTESIS_CIERRA
+| MENOR_QUE Expresion
+| MAYOR_QUE Expresion
+| MENOR_O_IGUAL Expresion
+| MAYOR_O_IGUAL Expresion
+| IGUAL Expresion
+| DIFERENTE Expresion
+| Expresion AND Expresion
+| Expresion OR Expresion
+| NEGACION Expresion
+| NUMERO
+;
+
+EstructuraSelectiva ::= IF PARENTESIS_ABRE Expresion PARENTESIS_CIERRA "{" Programa "}"
+| IF PARENTESIS_ABRE Expresion PARENTESIS_CIERRA "{" Programa "}" ELSE "{" Programa "}"
+| IF PARENTESIS_ABRE Expresion PARENTESIS_CIERRA "{" EstructuraSelectiva "}"
+| IF PARENTESIS_ABRE Expresion PARENTESIS_CIERRA "{" EstructuraSelectiva "}" ELSE "{" EstructuraSelectiva "}";
+
+EstructuraRepetitiva ::= FOR PARENTESIS_ABRE Asignacion PUNTO_Y_COMA Expresion PUNTO_Y_COMA Asignacion PARENTESIS_CIERRA "{" Programa "}"
+| WHILE PARENTESIS_ABRE Expresion PARENTESIS_CIERRA "{" Programa "}"
+| DO_ "{" Programa "}" WHILE PARENTESIS_ABRE Expresion PARENTESIS_CIERRA;
+
+LecturaDatos ::= SYSTEM PUNTO_OUT PUNTO PRINT PARENTESIS_ABRE """ PARENTESIS_CIERRA PUNTO_Y_COMA
+| SYSTEM PUNTO_OUT PUNTO PRINTLN PARENTESIS_ABRE """ PARENTESIS_CIERRA PUNTO_Y_COMA
+| PALABRA IGUAL SYSTEM PUNTO_IN PUNTO_NEXT PARENTESIS_ABRE PARENTESIS_CIERRA PUNTO_Y_COMA
+| PALABRA IGUAL SYSTEM PUNTO_IN PUNTO_NEXT_INT PARENTESIS_ABRE PARENTESIS_CIERRA PUNTO_Y_COMA
+| PALABRA IGUAL SYSTEM PUNTO_IN PUNTO_NEXT_FLOAT PARENTESIS_ABRE PARENTESIS_CIERRA PUNTO_Y_COMA
+| PALABRA IGUAL SYSTEM PUNTO_IN PUNTO_NEXT_DOUBLE PARENTESIS_ABRE PARENTESIS_CIERRA PUNTO_Y_COMA;
+
+ImpresionMensajes ::= SYSTEM PUNTO_OUT PUNTO PRINT PARENTESIS_ABRE Expresion PARENTESIS_CIERRA PUNTO_Y_COMA
+| SYSTEM PUNTO_OUT PUNTO PRINTLN PARENTESIS_ABRE Expresion PARENTESIS_CIERRA PUNTO_Y_COMA;
+
+Metodo ::= PUBLIC PALABRA PARENTESIS_ABRE Parametros PARENTESIS_CIERRA "{" Programa "}"
+| PRIVATE PALABRA PARENTESIS_ABRE Parametros PARENTESIS_CIERRA "{" Programa "}"
+| PUBLIC PALABRA PARENTESIS_ABRE PARENTESIS_CIERRA "{" Programa "}"
+| PRIVATE PALABRA PARENTESIS_ABRE PARENTESIS_CIERRA "{" Programa "}";
+
+Parametros ::= Declaracion
+| Parametros  Declaracion;
+
+RetornoDatos ::= RETURN Expresion PUNTO_Y_COMA;
+
+Programa ::= expr_list;
+
