@@ -21,11 +21,8 @@ import java_cup.runtime.*;
 
 // Definiciones regulares
 
-digito           = [0-9]
-numero           = {digito}+
 espacios_blanco  = [ \t\r\n]
-palabra          = [a-zA-Z]+
-identificador    = [a-zA-Z][a-zA-Z0-9]*
+identificador    = [a-zA-Z]+
 numFloat         = "-?[0-9]+(?:\\.[0-9]+)?"
 numDouble        = "-?[0-9]+(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?"
 numEntero        = "-?[0-9]+"
@@ -49,9 +46,6 @@ comillas         = [\"\"]
 "short"           { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.SHORT, yytext()); }
 {numEntero}       { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NUM_ENTERO, yytext()); }
 
-//String
-"String"          { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.STRING, yytext()); }
-{identificador}   { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PALABRA, yytext()); }
 
 //boolean
 "boolean"         { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.BOOLEAN, yytext()); }
@@ -108,6 +102,7 @@ comillas         = [\"\"]
 //3.2.	switch simple y anidado
 "switch"          { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.SWITCH, yytext()); }
 "case"            { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.CASE, yytext()); }
+"break"           { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.BREAK, yytext()); }
 "default"         { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.DEFAULT, yytext()); }
 
 
@@ -129,6 +124,10 @@ comillas         = [\"\"]
 "nextFloat"       { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_FLOAT, yytext()); }
 "nextDouble"      { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_DOUBLE, yytext()); }
 "nextBoolean"     { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_BOOLEAN, yytext()); }
+"nextByte"        { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_BYTE, yytext()); }
+"nextLine"	  { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_LINE, yytext()); }
+"nextLong"        { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_LONG, yytext()); }
+"nextShort"       { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEXT_SHORT, yytext()); }
 
 
 
@@ -147,9 +146,13 @@ comillas         = [\"\"]
 
 // 7. Declaración de métodos
 "public"          { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PUBLIC, yytext()); }
+"class"           { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.CLASS, yytext()); }
 "private"         { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PRIVATE, yytext()); }
 "static"          { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.STATIC, yytext()); }
 "void"            { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.VOID, yytext()); }
+"main"            { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.MAIN, yytext()); }
+"args"            { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.ARGS, yytext()); }
+
 "return"          { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.RETURN, yytext()); }
 
 // 7.1 Recepción de parámetros
@@ -160,5 +163,20 @@ comillas         = [\"\"]
 // 7.2 Retorno de datos mediante la sentencia de return
 
 
-{espacios_blanco} { /* Ignorar estos símbolos */ }
 
+
+
+//String
+"String"          { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.STRING, yytext()); }
+{identificador}   { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.PALABRA, yytext()); }
+
+{comillas}   { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.COMILLAS, yytext()); }
+
+
+"{"     { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.LLAVE_ABRE, yytext()); }
+"}"     { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.LLAVE_CIERRA, yytext()); }
+":"     { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.DOS_PUNTOS, yytext()); }
+//"new"     { System.out.println("Se reconoce lexema: " + yytext()); return symbol(sym.NEW, yytext()); }
+
+
+{espacios_blanco} { /* Ignorar estos símbolos */ }

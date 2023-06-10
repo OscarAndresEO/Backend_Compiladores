@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 //import mi.primer.scanner.Scanner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-//import umg.compiladores.*;
+import umg.compiladores.*;
 
 /**
  *
@@ -49,12 +50,11 @@ public class AnalizadorController {
         try {
             InputStream inputStream = file.getInputStream();
             
-          /*  Reader reader = new InputStreamReader(inputStream);
+            Reader reader = new InputStreamReader(inputStream);
             Lexer analizadorLexico = new Lexer(reader);
             parser p = new parser(analizadorLexico);
             p.parse();
-             */
-            System.out.println("");
+             
             return ResponseEntity.ok("TODO OK");
             // return ResponseEntity.ok(p.parse());
 
