@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,29 +35,29 @@ import umg.compiladores.*;
 public class AnalizadorController {
 
     @PostMapping("/texto")
-    public ResponseEntity<?> leerTexto(@RequestParam("textoJava") String texto) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<?> leerTexto(@RequestParam("textoJava") String texto) throws Exception {
+        parser p = null;
         try {
-            response.put("texto", texto);
+            Lexer analizadorLexico = new Lexer(new StringReader(texto));
+            p = new parser(analizadorLexico);
         } catch (Exception e) {
             return ResponseEntity.ok("No funcionó");
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(p.parse());
     }
 
 //
     @PostMapping("/archivo")
     public ResponseEntity<?> leerArchivo(@RequestParam("file") MultipartFile file) {
+        parser p = null;
         try {
             InputStream inputStream = file.getInputStream();
-            
+
             Reader reader = new InputStreamReader(inputStream);
             Lexer analizadorLexico = new Lexer(reader);
-            parser p = new parser(analizadorLexico);
-            p.parse();
-             
-            return ResponseEntity.ok("TODO OK");
-            // return ResponseEntity.ok(p.parse());
+            p = new parser(analizadorLexico);
+
+            return ResponseEntity.ok(p.parse());
 
         } catch (Exception e) {
             return ResponseEntity.ok("No funcionó");
